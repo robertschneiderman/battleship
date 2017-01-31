@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 import auth from './auth/reducer';
+import game from './game/reducer';
 
 
 const appReducer = combineReducers({
   auth,
+  game,
   form
 });
 

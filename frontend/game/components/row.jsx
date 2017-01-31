@@ -10,9 +10,9 @@ class Row extends Component {
     renderSpaces() {
         let spaces = [];
         for (let i = 0; i <= 9; i++) {
-            let value = this.props.row[i];                
+            let space = this.props.row[i];                
             spaces.push(
-                <Space value={value} y={this.props.y} x={i} />
+                <Space space={space} y={this.props.y} x={i} hitSpace={this.props.hitSpace} />
             );
         }
         return spaces;
