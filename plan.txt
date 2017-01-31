@@ -1,0 +1,21 @@
+Plan
+
+
+1) Data
+game -> user -> board -> ships -> (coordinates & hits)
+
+2) /setup
+
+Start by placing ships
+    POST to /ships
+
+Random placement for AI
+
+3) /game
+
+click opponents board... (/post board)
+
+
+
+
+
