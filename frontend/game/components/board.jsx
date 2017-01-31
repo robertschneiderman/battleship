@@ -10,9 +10,10 @@ class Board extends Component {
     renderRows() {
         let rows = [];
         for (let i = 0; i <= 9; i++) {
+            debugger;
+            let row = this.props.board.spaces[i];
             rows.push(
-                // this.props.board[0];
-                <Row row={i} />
+                <Row row={row} y={i} />
             );
         }
         return rows;

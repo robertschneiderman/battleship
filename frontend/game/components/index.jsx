@@ -8,37 +8,56 @@ class Game extends Component {
         super(props);
     }
     render() {
-        // let {boards} = this.props;
+        let {playerBoard} = this.props;
                 // <Board owner={'user'} board={boards[0]} />
                 // <Board owner={'computer'} board={boards[1]} />
         return(
             <div className="game">
-                <Board />
-                <Board />
+                <Board board={playerBoard} />
             </div>
         );
+                // <Board />
     }
 }
 
+let rows = [];
+for (let i = 1; i <= 10; i++) {
+    rows.push([]);
+
+    for (let j = 1; j <= 10; j++) {
+        let row = rows[rows.length-1];
+        row.push('blank');
+    }
+}
+
+rows[0][1] = 'destroyer';
+rows[0][2] = 'destroyer';
+
+// const populateBoard = () => {
+//     spaces.forEach();
+// };
+
+
 const mapStateToProps = state => {
-    // let {game } = state;
-    // let { boards, ships };
-        // boards,
-        // ships
+    // attacked
+    // blank
+    // miss
+    // hit
+    // boat-names ...
 
-    // let game = {
-    //     mode: 'setup'
-    // };
-
-    let boats = [
-        {
-            name: 'Destroyer',
-            coords: [[0, 1], [0, 2]]
-        }
-    ];
+    let playerBoard = {
+        spaces: rows,
+        ships: [
+            {
+                name: 'Destroyer',
+                capacity: 2,
+                hits: 0
+            }
+        ]
+    };
 
     return {
-        boats
+        playerBoard
     };
 };
 
