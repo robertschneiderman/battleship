@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Row from './row';
 // import * as actions from '../actions';
 
 class Board extends Component {
@@ -14,6 +15,7 @@ class Board extends Component {
                 <Row row={i} />
             );
         }
+        return rows;
     }
 
     render() {

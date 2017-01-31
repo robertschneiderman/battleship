@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Space from './space';
 // import * as actions from '../actions';
 
 class Row extends Component {
@@ -7,13 +8,14 @@ class Row extends Component {
     }
 
     renderSpaces() {
-        let rows = [];
+        let spaces = [];
         for (let i = 1; i <= 10; i++) {
-            rows.push(
+            spaces.push(
                 // this.props.board[y];                
                 <Space y={this.props.y} x={i} />
             );
         }
+        return spaces;
     }
 
     render() {

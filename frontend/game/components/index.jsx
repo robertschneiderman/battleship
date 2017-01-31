@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import Board from './board';
 // import * as actions from '../actions';
 
 class Game extends Component {
@@ -12,6 +13,8 @@ class Game extends Component {
                 // <Board owner={'computer'} board={boards[1]} />
         return(
             <div className="game">
+                <Board />
+                <Board />
             </div>
         );
     }
@@ -22,7 +25,20 @@ const mapStateToProps = state => {
     // let { boards, ships };
         // boards,
         // ships
+
+    // let game = {
+    //     mode: 'setup'
+    // };
+
+    let boats = [
+        {
+            name: 'Destroyer',
+            coords: [[0, 1], [0, 2]]
+        }
+    ];
+
     return {
+        boats
     };
 };
 
