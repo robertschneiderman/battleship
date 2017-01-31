@@ -11,7 +11,7 @@ import Signout from './auth/components/signout';
 import RequireAuth from './auth/components/require_auth';
 import Welcome from './welcome';
 import { AUTH_USER } from './auth/types';
-import Setup from './setup/';
+import Game from './game/components/';
 // import * as userActions from './user/actions';
 
 import store from './store'; 
@@ -37,7 +37,7 @@ ReactDOM.render(
         <Route path="signin" component={Signin} />
         <Route path="signout" component={Signout} />
         <Route path="signup" component={Signup} />
-        <Route path="setup" component={Setup} />
+        <Route path="game" component={Game} />
       </Route>
     </Router>
   </Provider>
