@@ -2,7 +2,13 @@ Plan
 
 
 1) Data
-game -> user -> board -> ships -> (coordinates & hits)
+user -> game -> board -> ships -> (coordinates & hits)
+
+game {
+    mode: 'setup'
+    turn: 0,
+    shipsSunk: []
+}
 
 2) /setup
 

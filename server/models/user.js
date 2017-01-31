@@ -3,22 +3,20 @@ const jwt = require('jwt-simple');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
+const config = require('../environment');
+
+  // games: [
+  //     {
+  //         boards: {rows: []},
+  //         winner: {type: String, default: null}
+
+  //     }
+  // ]
+
 const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   name: String,
   password: String,
-  games: [
-      {
-          boards: [],
-          winner: {type: String, default: null}
-
-      }
-  ]
-
-  histories: [
-    { date: Date, tasks: [task] }
-  ],
-  buddy: { type: Schema.Types.ObjectId, default: null }
 });
 
 // userSchema.pre('save', function(next) {
