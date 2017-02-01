@@ -4,6 +4,12 @@ const User = require('../models/user');
 const config = require('../environment');
 const bcrypt = require('bcrypt-nodejs');
 
+const helpers = require('../board_helpers');
+const boats = helpers.boats;
+const boatsCopy = helpers.boatsCopy;
+const randomAssignment = helpers.randomAssignment;
+const populateGrid = helpers.populateGrid;
+
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
@@ -29,10 +35,19 @@ exports.signup = function(req, res, next) {
       return res.status(422).send({ error: 'Email is in use'} );
     }
 
+    randomAssignment(boats);
+    randomAssignment(boatsCopy);
+
+    let grid1 = populateGrid(boats);
+    let grid2 = populateGrid(boatsCopy); 
+
     const user = new User({
       email: email,
       password: password,
-      name
+      name,
+      game: {
+        boards: [{grid: grid1, boats}, {grid: grid2, boats: boatsCopy}]
+      }
     });
 
     bcrypt.genSalt(10, function(err, salt) {

@@ -22,13 +22,13 @@ const userSchema = new Schema({
   game: {
     start: {type: Boolean, default: true},
     turn: {type: Number, default: 0},
-    board: [
+    boards: [
       {
         boats: [
           {
             capacity: Number,
             coordinates: { type: Mixed, default: [] },
-            hits: Number,
+            hits: {type: Number, default: 0},
             name: String,
             vertical: Boolean
           }
