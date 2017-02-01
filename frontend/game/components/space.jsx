@@ -5,7 +5,7 @@ class Space extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
-        this.renderUserSpace = this.renderUserSpace.bind(this);
+        this.revealUserSpace = this.revealUserSpace.bind(this);
         this.renderStyle = this.renderStyle.bind(this);
     }
 
@@ -18,7 +18,7 @@ class Space extends Component {
         }
     }
 
-    renderUserSpace() {
+    revealUserSpace() {
         // debugger;
         if (this.props.space.boat !== 'blank') {
             return 'BOAT!';
@@ -40,11 +40,10 @@ class Space extends Component {
 
     
     render() {
-        let renderFnc = (this.props.owner === 'user') ? this.renderUserSpace : '';
         let style = this.renderStyle();
         return(
             <div className="space" style={style} onClick={this.handleClick.bind(this)}>
-                {renderFnc()}
+                {(this.props.owner === 'user') ? this.revealUserSpace() : ''}
             </div>
         );
     }

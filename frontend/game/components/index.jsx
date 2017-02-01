@@ -8,12 +8,13 @@ class Game extends Component {
         super(props);
     }
     render() {
-        let {playerBoard, hitSpace} = this.props;
+        let {boards, hitSpace} = this.props;
                 // <Board owner={'user'} board={boards[0]} />
                 // <Board owner={'computer'} board={boards[1]} />
         return(
             <div className="game">
-                <Board owner={'user'}board={playerBoard} hitSpace={hitSpace} />
+                <Board owner={'user'} board={boards[0]} hitSpace={hitSpace} />
+                <Board owner={'opponent'} board={boards[1]} hitSpace={hitSpace} />
             </div>
         );
     }
@@ -35,10 +36,9 @@ const mapStateToProps = state => {
     // hit    
 
     let {game} = state;
-    let playerBoard = game.boards[0];
 
     return {
-        playerBoard
+        boards: game.boards
     };
 };
 
