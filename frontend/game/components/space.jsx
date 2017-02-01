@@ -10,7 +10,6 @@ class Space extends Component {
     }
 
     handleClick() {
-        debugger;
         if (this.props.game.turn === 1) return;
         let {y, x, space} = this.props;
         if (!space.attacked) {

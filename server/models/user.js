@@ -3,6 +3,8 @@ const jwt = require('jwt-simple');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
+const Mixed = Schema.Types.Mixed;
+
 const config = require('../environment');
 
   // games: [
@@ -17,6 +19,24 @@ const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   name: String,
   password: String,
+  game: {
+    start: {type: Boolean, default: true},
+    turn: {type: Number, default: 0},
+    board: [
+      {
+        boats: [
+          {
+            capacity: Number,
+            coordinates: { type: Mixed, default: [] },
+            hits: Number,
+            name: String,
+            vertical: Boolean
+          }
+        ],
+        grid: { type: Mixed, default: [] }
+      }
+    ]
+  }
 });
 
 // userSchema.pre('save', function(next) {

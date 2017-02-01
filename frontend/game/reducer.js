@@ -91,7 +91,7 @@ boats.forEach(boat => {
 
 
 let defaultState = {
-    users: [{shipsSunk: []}, {shipsSunk: []}],
+    users: [{shipsSunk: []}, {moves: [], mode: 'random', shipsSunk: []}],
     game: {
         turn: 0,
         start: true
@@ -110,9 +110,16 @@ const GameReducer = (state = defaultState, action) => {
             return newState;
         case 'AI_MOVE':
             debugger;
+            // coords, h/m
             newState.boards[0].spaces[action.payload[0]][action.payload[1]].attacked = true;
             newState.game.turn = (newState.game.turn + 1) % 2;
-            return newState;            
+            return newState;
+        case 'RECEIVE_BOARDS':
+            // action.payload()
+        case 'RECEIVE_AI':
+
+        case 'RECEIVE_TURN':
+        
         case 'SWITCH_TURN':
             newState.game.turn = (newState.game.turn + 1) % 2;
             return newState;

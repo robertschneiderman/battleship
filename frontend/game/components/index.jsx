@@ -18,8 +18,8 @@ class Game extends Component {
     }
 
     formulateMove(board) {
-        let { mode } = this.props;
-        debugger;
+        let { game } = this.props;
+        let mode;
         // let mode = 'attackHorizontal';
         let moves = [[3, 4]];
         let move;
@@ -44,7 +44,6 @@ class Game extends Component {
 
     render() {
         let {boards, hitSpace} = this.props;
-        debugger;
         if (this.props.game.turn === 1) this.formulateMove(boards[0]);
                 // <Board owner={'user'} board={boards[0]} />
                 // <Board owner={'computer'} board={boards[1]} />
@@ -73,10 +72,11 @@ const mapStateToProps = state => {
     // hit    
 
     let {game} = state;
+        // ai: users[1]
 
     return {
         game: game.game,
-        boards: game.boards
+        boards: game.boards,
     };
 };
 
