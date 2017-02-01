@@ -10,10 +10,13 @@ class Space extends Component {
     }
 
     handleClick() {
+        debugger;
+        if (this.props.game.turn === 1) return;
         let {y, x, space} = this.props;
         if (!space.attacked) {
 
             this.props.hitSpace([y, x]);
+            this.props.switchTurn();
             // this.props.attackShip();
         }
     }
@@ -26,7 +29,8 @@ class Space extends Component {
     }
 
     renderStyle() {
-        // debugger;
+        // let style;
+        // if (this.props.game.turn === 0) style = {};
         if (this.props.space.attacked) {
             if (this.props.space.boat === 'blank') {
                 return {backgroundColor: 'green'};

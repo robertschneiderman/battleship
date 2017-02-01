@@ -13,7 +13,7 @@ class Row extends Component {
         for (let i = 0; i <= 9; i++) {
             let space = this.props.row[i];                
             spaces.push(
-                <Space owner={owner} space={space} y={y} x={i} hitSpace={hitSpace} />
+                <Space {...this.props} space={space} x={i} />
             );
         }
         return spaces;

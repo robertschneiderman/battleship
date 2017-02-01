@@ -41,4 +41,10 @@ click opponents board... (/post board)
         ]
     };
 
+    ai (user): {
+        moves: [[coords], [coords]],
+        mode: 'attackHorizontal',
+        
+    }
+
 

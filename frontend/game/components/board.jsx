@@ -14,7 +14,7 @@ class Board extends Component {
             // debugger;
             let row = this.props.board.spaces[i];
             rows.push(
-                <Row owner={owner} row={row} y={i} hitSpace={hitSpace} />
+                <Row {...this.props} row={row} y={i} />
             );
         }
         return rows;

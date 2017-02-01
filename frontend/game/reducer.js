@@ -96,21 +96,21 @@ let defaultState = {
         turn: 0,
         start: true
     },
-    boards: [{spaces, boats: boats}, {spaces: spaces2, boats:[] }],
+    boards: [{spaces, boats: boats}, {spaces: spaces, boats:[] }],
     spaces: []
 };
 
 const GameReducer = (state = defaultState, action) => {
-    let newState;
+    let newState = merge({}, state);
     switch (action.type) {
         case 'GET_GAME_DATA':
             return newState;
         case 'HIT_SPACE':
-            newState = merge({}, state);
             newState.boards[1].spaces[action.payload[0]][action.payload[1]].attacked = true;
             return newState;
-        case 'RECEIVE_SPACE':
-
+        case 'SWITCH_TURN':
+            newState.game.turn = (newState.game.turn + 1) % 2;
+            return newState;
         default:
             return state;
     }
