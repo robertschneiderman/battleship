@@ -4,6 +4,9 @@ import React, {Component} from 'react';
 class Space extends Component {
     constructor(props) {
         super(props);
+        this.handleClick = this.handleClick.bind(this);
+        this.renderUserSpace = this.renderUserSpace.bind(this);
+        this.renderStyle = this.renderStyle.bind(this);
     }
 
     handleClick() {
@@ -15,18 +18,33 @@ class Space extends Component {
         }
     }
 
-    renderValue() {
-        if (this.props.space.boat === 'destroyer' && !this.props.space.attacked) {
-            return "DDD";
-        } else if (this.props.space.boat !== 'blank' && this.props.space.attacked) {
-            return 'ATTACKED!';
+    renderUserSpace() {
+        // debugger;
+        if (this.props.space.boat !== 'blank') {
+            return 'BOAT!';
         }
     }
+
+    renderStyle() {
+        // debugger;
+        if (this.props.space.attacked) {
+            if (this.props.space.boat === 'blank') {
+                return {backgroundColor: 'green'};
+            } else {
+                return {backgroundColor: 'red'};
+            }
+        } else {
+                return {};
+        }
+    }    
+
     
     render() {
+        let renderFnc = (this.props.owner === 'user') ? this.renderUserSpace : '';
+        let style = this.renderStyle();
         return(
-            <div className="space" onClick={this.handleClick.bind(this)}>
-                {this.renderValue()}
+            <div className="space" style={style} onClick={this.handleClick.bind(this)}>
+                {renderFnc()}
             </div>
         );
     }

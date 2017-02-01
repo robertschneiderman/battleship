@@ -13,7 +13,7 @@ class Game extends Component {
                 // <Board owner={'computer'} board={boards[1]} />
         return(
             <div className="game">
-                <Board board={playerBoard} hitSpace={hitSpace} />
+                <Board owner={'user'}board={playerBoard} hitSpace={hitSpace} />
             </div>
         );
     }

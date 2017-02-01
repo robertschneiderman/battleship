@@ -24,4 +24,21 @@ click opponents board... (/post board)
 
 
 
+    let playerBoard = {
+        spaces: [
+            [
+                {
+                    status: ''
+                }
+            ]
+        ],
+        ships: [
+            {
+                name: 'Destroyer',
+                capacity: 2,
+                hits: 0
+            }
+        ]
+    };
+
 
