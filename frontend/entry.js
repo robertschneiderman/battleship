@@ -12,7 +12,7 @@ import RequireAuth from './auth/components/require_auth';
 import Welcome from './welcome';
 import { AUTH_USER } from './auth/types';
 import Game from './game/components/';
-// import * as userActions from './user/actions';
+import * as userActions from './user/actions';
 
 import store from './store'; 
 
@@ -23,8 +23,8 @@ if (token) {
 }
 
 if (currentUser) {
-  // store.dispatch(userActions.requestUser(currentUser));
-  // store.dispatch({ type: 'REQUEST_USER', payload: currentUser });
+  store.dispatch(userActions.requestUser(currentUser));
+  store.dispatch({ type: 'REQUEST_USER', payload: currentUser });
 }
 
 window.store = store;

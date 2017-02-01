@@ -19,7 +19,7 @@ export function signinUser({ email, name, password }) {
         
         const currentUser = localStorage.getItem('currentUser');        
         dispatch({ type: 'REQUEST_USER', payload: currentUser });        
-        hashHistory.push('setup');
+        hashHistory.push('game');
       })
       .catch(() => {
         dispatch(authError("Bad Login Info"));
@@ -35,7 +35,7 @@ export function signupUser({ email, name, password }) {
         localStorage.setItem('currentUser', response.data.user._id);        
         dispatch({ type: AUTH_USER });
         dispatch({ type: 'CREATE_BLANK_HISTORY'});
-        hashHistory.push('setup');
+        hashHistory.push('game');
       })
       .catch(() => {
         dispatch(authError("Bad Signup Info"));

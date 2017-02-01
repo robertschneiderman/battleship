@@ -21,7 +21,7 @@ class Space extends Component {
     revealUserSpace() {
         // debugger;
         if (this.props.space.boat !== 'blank') {
-            return 'BOAT!';
+            return this.props.space.boat;
         }
     }
 
