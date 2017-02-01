@@ -3,16 +3,40 @@ import {connect} from 'react-redux';
 import Board from './board';
 import * as actions from '../actions';
 
+const getRandomNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const getRandCoords = () => {
+    return [getRandomNumber(0, 9), getRandomNumber(0, 9)];
+};
+
 class Game extends Component {
     constructor(props) {
         super(props);
-        this.aiMove = this.aiMove.bind(this);
+        this.formulateMove = this.formulateMove.bind(this);
     }
 
     formulateMove(board) {
-        let lastMove = this.props.moves[this.props.moves.length-1];
-        if ( === 'hit') {
-
+        let { mode } = this.props;
+        debugger;
+        // let mode = 'attackHorizontal';
+        let moves = [[3, 4]];
+        let move;
+        if (mode !== 'random') {
+            let lastMove = moves[moves.length-1];
+            let nextSpace;
+            let previousSpace;
+            // let coordIdx = (mode === 'attackHorizontal') ? 1 : 0;
+            nextSpace = [3, lastMove[1] + 1];   
+            previousSpace = [3, lastMove[1] - 1];
+            move = (nextSpace.boat !== 'blank') ? nextSpace : (previousSpace.boat !== 'blank') ? previousSpace : getRandCoords();
+        } else {
+            let randCoords = getRandCoords();
+            while (board[randCoords[0]][randCoords[1]].boat !== 'blank') {
+                randCoords = getRandCoords();    
+            }
+            move = randCoords;
         }
 
         this.props.aiMove(move);
@@ -20,7 +44,8 @@ class Game extends Component {
 
     render() {
         let {boards, hitSpace} = this.props;
-        if (this.props.move === 1) this.formulateMove(boards[0]);
+        debugger;
+        if (this.props.game.turn === 1) this.formulateMove(boards[0]);
                 // <Board owner={'user'} board={boards[0]} />
                 // <Board owner={'computer'} board={boards[1]} />
         return(

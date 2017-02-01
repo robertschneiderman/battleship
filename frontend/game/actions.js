@@ -5,13 +5,18 @@ export const hitSpace = payload => ({
     payload
 });
 
-export const hitSpace = payload => {
-    return (dispatch) => {
-        // axios.post()
-        dispatch({type: 'HIT_SPACE', payload});
-        // dispatch({type: 'COMPUTER_MOVE', payload});
-    };
-};
+export const aiMove = payload => ({
+    type: 'AI_MOVE',
+    payload
+});
+
+// export const hitSpace = payload => {
+//     return (dispatch) => {
+//         // axios.post()
+//         dispatch({type: 'HIT_SPACE', payload});
+//         // dispatch({type: 'COMPUTER_MOVE', payload});
+//     };
+// };
 
 export const switchTurn = () => ({
     type: 'SWITCH_TURN'

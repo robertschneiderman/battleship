@@ -108,6 +108,11 @@ const GameReducer = (state = defaultState, action) => {
         case 'HIT_SPACE':
             newState.boards[1].spaces[action.payload[0]][action.payload[1]].attacked = true;
             return newState;
+        case 'AI_MOVE':
+            debugger;
+            newState.boards[0].spaces[action.payload[0]][action.payload[1]].attacked = true;
+            newState.game.turn = (newState.game.turn + 1) % 2;
+            return newState;            
         case 'SWITCH_TURN':
             newState.game.turn = (newState.game.turn + 1) % 2;
             return newState;
