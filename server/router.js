@@ -1,4 +1,5 @@
 const Authentication = require('./controllers/authentication');
+const User = require('./controllers/user');
 const Board = require('./controllers/board');
 
 const passportService = require('./services/passport');
@@ -14,7 +15,9 @@ module.exports = function(app) {
     });
 
     app.post('/signin', requireSignIn, Authentication.signin);
-    app.post('/signup', Authentication.signup);    
+    app.post('/signin', requireSignIn, Authentication.signin);
+
+    app.get('/users/:id', User.find);    
 
     app.patch('/board', requireSignIn, Board.attack);
     

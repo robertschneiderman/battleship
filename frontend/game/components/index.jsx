@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Board from './board';
+import Board from '../../board/components';
+import merge from 'lodash/merge';
 import * as actions from '../actions';
 
 const getRandomNumber = (min, max) => {
@@ -30,10 +31,10 @@ class Game extends Component {
             // let coordIdx = (mode === 'attackHorizontal') ? 1 : 0;
             nextSpace = [3, lastMove[1] + 1];   
             previousSpace = [3, lastMove[1] - 1];
-            move = (nextSpace.boat !== 'blank') ? nextSpace : (previousSpace.boat !== 'blank') ? previousSpace : getRandCoords();
+            move = (nextSpace.ship !== 'blank') ? nextSpace : (previousSpace.ship !== 'blank') ? previousSpace : getRandCoords();
         } else {
             let randCoords = getRandCoords();
-            while (board[randCoords[0]][randCoords[1]].boat !== 'blank') {
+            while (board[randCoords[0]][randCoords[1]].ship !== 'blank') {
                 randCoords = getRandCoords();    
             }
             move = randCoords;
@@ -43,16 +44,18 @@ class Game extends Component {
     }
 
     render() {
-        let {boards, hitSpace} = this.props;
-        if (this.props.game.turn === 1) this.formulateMove(boards[0]);
-                // <Board owner={'user'} board={boards[0]} />
-                // <Board owner={'computer'} board={boards[1]} />
-        return(
-            <div className="game">
-                <Board owner={'user'} {...this.props} board={boards[0]} />
-                <Board owner={'opponent'} {...this.props} board={boards[1]} />
-            </div>
-        );
+        let {game, boards, hitSpace} = this.props;
+        if (game.turn === 1) this.formulateMove(boards[0]);
+        if (boards.length !== 0) {
+            return(
+                <div className="game">
+                    <Board owner={'user'} {...this.props} board={boards[0]} />
+                    <Board owner={'opponent'} {...this.props} board={boards[1]} />
+                </div>
+            );
+        } else {
+            return <div className="game"></div>;
+        }
     }
 }
 
@@ -60,23 +63,31 @@ class Game extends Component {
 //     spaces.forEach();
 // };
 
+const objToArr = obj => {
+    let arr = [];
+    for (let key in obj) arr.push(obj[key]);
+    return arr;
+};
+
 
 const mapStateToProps = state => {
-    // attacked
-    // unattacked
+    let {user, game, board, ship} = state;
 
-    // empty
-    // boat-names ...
+    let games = objToArr(game);
+    let boards = objToArr(board);
+    let currentGame;
 
-    // miss
-    // hit    
-
-    let {game} = state;
-        // ai: users[1]
+    if (games.length > 0) {
+        currentGame = games[games.length-1];
+    } else {
+        currentGame = {turn: 0};
+    }
 
     return {
-        game: game.game,
-        boards: game.boards,
+        user,
+        game: games,
+        boards: boards,
+        ships: ship
     };
 };
 

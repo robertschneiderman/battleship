@@ -19,12 +19,13 @@ const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   name: String,
   password: String,
-  game: {
+  games: [{
     start: {type: Boolean, default: true},
     turn: {type: Number, default: 0},
+    winner: {type: String, default: null},
     boards: [
       {
-        boats: [
+        ships: [
           {
             capacity: Number,
             coordinates: { type: Mixed, default: [] },
@@ -36,7 +37,7 @@ const userSchema = new Schema({
         grid: { type: Mixed, default: [] }
       }
     ]
-  }
+  }]
 });
 
 // userSchema.pre('save', function(next) {

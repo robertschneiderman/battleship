@@ -5,8 +5,8 @@ const config = require('../environment');
 const bcrypt = require('bcrypt-nodejs');
 
 const helpers = require('../board_helpers');
-const boats = helpers.boats;
-const boatsCopy = helpers.boatsCopy;
+const ships = helpers.ships;
+const shipsCopy = helpers.shipsCopy;
 const randomAssignment = helpers.randomAssignment;
 const populateGrid = helpers.populateGrid;
 
@@ -35,20 +35,23 @@ exports.signup = function(req, res, next) {
       return res.status(422).send({ error: 'Email is in use'} );
     }
 
-    randomAssignment(boats);
-    randomAssignment(boatsCopy);
+    randomAssignment(ships);
+    randomAssignment(shipsCopy);
 
-    let grid1 = populateGrid(boats);
-    let grid2 = populateGrid(boatsCopy); 
+    let grid1 = populateGrid(ships);
+    let grid2 = populateGrid(shipsCopy); 
+
+    let game = {
+        boards: [{grid: grid1, ships: ships}, {grid: grid2, ships: shipsCopy}]
+    };
 
     const user = new User({
       email: email,
       password: password,
-      name,
-      game: {
-        boards: [{grid: grid1, boats}, {grid: grid2, boats: boatsCopy}]
-      }
+      name
     });
+
+    user.games.push(game);
 
     bcrypt.genSalt(10, function(err, salt) {
       if(err) { return next(err); }

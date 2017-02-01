@@ -5,6 +5,11 @@ import store from '../store';
 //     payload
 // });
 
+export const receiveGames = payload => ({
+    type: 'RECEIVE_GAMES',
+    payload
+});
+
 export const aiMove = payload => {
     return (dispatch) => {
         // axios.post()

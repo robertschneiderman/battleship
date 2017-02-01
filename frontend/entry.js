@@ -23,7 +23,7 @@ if (token) {
 }
 
 if (currentUser) {
-  store.dispatch(userActions.requestUser(currentUser));
+  // store.dispatch(userActions.requestUser(currentUser));
   store.dispatch({ type: 'REQUEST_USER', payload: currentUser });
 }
 

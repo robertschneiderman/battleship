@@ -90,12 +90,7 @@ import {router, hashHistory} from 'react-router';
 
 
 
-let defaultState = {
-    users: [],
-    game: {},
-    boards: [],
-    spaces: []
-};
+let defaultState = {};
 
 const GameReducer = (state = defaultState, action) => {
     let newState = merge({}, state);
@@ -103,22 +98,21 @@ const GameReducer = (state = defaultState, action) => {
         case 'GET_GAME_DATA':
             return newState;
         case 'HIT_SPACE':
-            newState.boards[1].spaces[action.payload[0]][action.payload[1]].attacked = true;
+            // newState.boards[1].spaces[action.payload[0]][action.payload[1]].attacked = true;
             return newState;
         case 'AI_MOVE':
-            debugger;
             // coords, h/m
-            newState.boards[0].spaces[action.payload[0]][action.payload[1]].attacked = true;
-            newState.game.turn = (newState.game.turn + 1) % 2;
+            // newState.boards[0].spaces[action.payload[0]][action.payload[1]].attacked = true;
+            // newState.game.turn = (newState.game.turn + 1) % 2;
             return newState;
-        case 'RECEIVE_BOARDS':
-            // action.payload()
+        case 'RECEIVE_GAMES':
+            return action.payload;
         case 'RECEIVE_AI':
 
         case 'RECEIVE_TURN':
         
         case 'SWITCH_TURN':
-            newState.game.turn = (newState.game.turn + 1) % 2;
+            // newState.game.turn = (newState.game.turn + 1) % 2;
             return newState;
         default:
             return state;

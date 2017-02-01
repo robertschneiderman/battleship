@@ -22,8 +22,8 @@ class Space extends Component {
 
     revealUserSpace() {
         // debugger;
-        if (this.props.space.boat !== 'blank') {
-            return this.props.space.boat;
+        if (this.props.space.ship !== 'blank') {
+            return this.props.space.ship;
         }
     }
 
@@ -31,7 +31,7 @@ class Space extends Component {
         // let style;
         // if (this.props.game.turn === 0) style = {};
         if (this.props.space.attacked) {
-            if (this.props.space.boat === 'blank') {
+            if (this.props.space.ship === 'blank') {
                 return {backgroundColor: 'green'};
             } else {
                 return {backgroundColor: 'red'};

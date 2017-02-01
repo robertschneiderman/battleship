@@ -1,4 +1,4 @@
-exports.boats = [
+exports.ships = [
     {
         name: 'Aircraft Carrier', 
         capacity: 5,
@@ -24,7 +24,7 @@ exports.boats = [
         coordinates: [],
         vertical: false
     },{
-        name: 'Patrol Boat', 
+        name: 'Patrol ship', 
         capacity: 2,
         hits: 0,
         coordinates: [],
@@ -32,7 +32,7 @@ exports.boats = [
     }           
 ];
 
-exports.boatsCopy = [
+exports.shipsCopy = [
     {
         name: 'Aircraft Carrier', 
         capacity: 5,
@@ -58,7 +58,7 @@ exports.boatsCopy = [
         coordinates: [],
         vertical: false
     },{
-        name: 'Patrol Boat', 
+        name: 'Patrol ship', 
         capacity: 2,
         hits: 0,
         coordinates: [],
@@ -70,22 +70,22 @@ const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const findOrigin = boat => {
-    let limit = 9 - boat.capacity + 1;
+const findOrigin = ship => {
+    let limit = 9 - ship.capacity + 1;
     let limitedDim = getRandomNumber(0, limit);
     let regularDim = getRandomNumber(0, 9);
-    return (boat.vertical) ? [limitedDim, regularDim] : [regularDim, limitedDim];
+    return (ship.vertical) ? [limitedDim, regularDim] : [regularDim, limitedDim];
 };
 
-exports.randomAssignment = boats => {
-    boats.forEach(boat => {
-        boat.vertical = !!getRandomNumber(0, 1);
-        let origin = findOrigin(boat);
-        let dimIdx = (boat.vertical) ? 0 : 1;
-        for (let i = 0; i < boat.capacity; i++) {
+exports.randomAssignment = ships => {
+    ships.forEach(ship => {
+        ship.vertical = !!getRandomNumber(0, 1);
+        let origin = findOrigin(ship);
+        let dimIdx = (ship.vertical) ? 0 : 1;
+        for (let i = 0; i < ship.capacity; i++) {
             let newOrigin = [origin[0], origin[1]];
             newOrigin[dimIdx] += i;
-            boat.coordinates.push(newOrigin);
+            ship.coordinates.push(newOrigin);
         }
     });
 };
@@ -96,17 +96,17 @@ const createBlankGrid = () => {
         grid.push([]);
         for (let j = 1; j <= 10; j++) {
             let row = grid[grid.length-1];
-            row.push({boat: 'blank', attacked: false});
+            row.push({ship: 'blank', attacked: false});
         }
     }
     return grid;
 };
 
-exports.populateGrid = boats => {
+exports.populateGrid = ships => {
     let grid = createBlankGrid();
-    boats.forEach(boat => {
-        boat.coordinates.forEach(coord => {
-            grid[coord[0]][coord[1]].boat = boat.name;
+    ships.forEach(ship => {
+        ship.coordinates.forEach(coord => {
+            grid[coord[0]][coord[1]].ship = ship.name;
         });
     });
     return grid;
