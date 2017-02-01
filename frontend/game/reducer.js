@@ -97,9 +97,6 @@ const GameReducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'GET_GAME_DATA':
             return newState;
-        case 'HIT_SPACE':
-            // newState.boards[1].spaces[action.payload[0]][action.payload[1]].attacked = true;
-            return newState;
         case 'AI_MOVE':
             // coords, h/m
             // newState.boards[0].spaces[action.payload[0]][action.payload[1]].attacked = true;

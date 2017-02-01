@@ -14,11 +14,11 @@ module.exports = function(app) {
         res.send('SUCESS!');
     });
 
-    app.post('/signin', requireSignIn, Authentication.signin);
-    app.post('/signin', requireSignIn, Authentication.signin);
+    app.post('/signup', Authentication.signup);
+    app.post('/signin', Authentication.signin);
 
     app.get('/users/:id', User.find);    
 
-    app.patch('/board', requireSignIn, Board.attack);
+    app.patch('/boards', Board.attack);
     
 };

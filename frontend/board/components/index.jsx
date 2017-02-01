@@ -11,10 +11,9 @@ class Board extends Component {
         let rows = [];
         let {hitSpace, owner} = this.props;
         for (let i = 0; i <= 9; i++) {
-            // debugger;
             let row = this.props.board.grid[i];
             rows.push(
-                <Row {...this.props} row={row} y={i} />
+                <Row key={`row-${i}`} {...this.props} row={row} y={i} />
             );
         }
         return rows;

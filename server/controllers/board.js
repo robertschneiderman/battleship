@@ -6,24 +6,21 @@ exports.attack = function(req, res, next) {
     if (!user) {
       return Promise.reject();
     }
+
+    let game = user.games[user.games.length-1];
+    if (game.start) game.start = false;
+    game.turn = (game.turn + 1) % 2;
+    game.boards[1].grid[req.body[0]][req.body[0]].attacked = true;
     
-    let task = {
-      name: req.body.name,
-      color: req.body.color,
-      type: req.body.type,
-      goals: req.body.goals
-    };
-    let date = new Date();
 
-    if (!user.histories[0]) user.histories[0] = { date: date, tasks: [] };
-    user.histories[0].tasks.push(task);
-
+    user.games[0].boards[1].markModified('grid');
     user.save(function(err) {
       if (err) { return next(err); }
-      // let history = user.histories[0].toObject();
-      // history.date = dh.formattedDate(date);
-      let tasks = user.histories[0].tasks;
-      res.json(tasks[tasks.length-1]);
+    //   let grid = game.boards[1].grid;
+    //   game.boards[1].grid.save(function(err) {
+        // if (err) { return next(err); }
+      res.json({board: game.boards[1], turn: game.turn});
+    //   });
     }).catch((e) => {
       res.status(401).send();
     });

@@ -15,7 +15,7 @@ class Space extends Component {
         if (!space.attacked) {
 
             this.props.hitSpace([y, x]);
-            this.props.switchTurn();
+            // this.props.switchTurn();
             // this.props.attackShip();
         }
     }
