@@ -1,0 +1,14 @@
+.game-modal {
+    outline: 0;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    max-width: 530px;
+    background-color: #fff;
+    padding: 3rem;
+}
+
+.game-modal-title {margin-bottom: 1.9rem;font-size: 3.6rem;}
+
+.game-modal-btn {padding: 1rem;background-color: #4dc9ef;color: #fff;}

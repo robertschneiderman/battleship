@@ -4,6 +4,8 @@ import Board from '../../board/components';
 import merge from 'lodash/merge';
 import * as actions from '../actions';
 import store from '../../store';
+import GameModal from './game_modal';
+
 
 const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,6 +18,7 @@ const getRandCoords = () => {
 class Game extends Component {
     constructor(props) {
         super(props);
+        this.renderModal = this.renderModal.bind(this);
     }
 
     componentDidMount() {
@@ -36,16 +39,20 @@ class Game extends Component {
         this.props.receiveTurn(0);
     }
 
+    renderModal() {
+        if (this.props.status === 'over') {
+            return (
+                <GameModal className="game-modal" />
+            );
+        }
+    }
+
     render() {
         let {game, turn, boards, hitSpace, message, status} = this.props;
-        debugger;
-        if (status === 'over') {
-            return <div className="game">GAME OVER</div>;
-        }         
         if (boards.length !== 0) {
             return(
                 <div className="game">
-
+                    {this.renderModal()}
                     <p className="message">{message}</p>
                     <button style={{position: 'absolute', top: '10px', width: '50px'}} onClick={this.handleTemp.bind(this)}>reset turn</button>
                     <Board owner={'user'} {...this.props} board={boards[0]} />
@@ -82,6 +89,7 @@ const mapStateToProps = state => {
     } else {
         currentGame = {turn: 0};
     }
+
 
     return {
         user,

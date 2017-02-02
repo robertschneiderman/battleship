@@ -8,11 +8,11 @@ const gamMiddleware = ({dispatch}) => next => action => {
     const successHit = res => {
         dispatch(gameActions.receiveTurn(res.data.game.turn));
         dispatch(boardActions.receiveBoard(res.data.board));
-        dispatch(gameActions.receiveGameStatus(res.data.over));
+        dispatch(gameActions.receiveGameStatus(res.data.status));
         dispatch(gameActions.receiveMessage(res.data.message));
 
 
-        if (res.data.game.turn === 1 && res.data.over === 'playing') {
+        if (res.data.game.turn === 1 && res.data.status === 'playing') {
             dispatch(gameActions.getAiMove(res.data.game));
         }
     };

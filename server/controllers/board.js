@@ -128,9 +128,9 @@ exports.attack = function(req, res, next) {
         });
     });
 
-    let over = isGameOver(board.ships);
+    let status = isGameOver(board.ships);
 
-
+    game.status = status;
 
     user.games[0].boards[game.turn].markModified('grid');
     user.save(function(err) {
@@ -138,7 +138,7 @@ exports.attack = function(req, res, next) {
     //   let grid = game.boards[1].grid;
     //   game.boards[1].grid.save(function(err) {
         // if (err) { return next(err); }
-      res.json({board, game, message, over});
+      res.json({board, game, message, status});
     //   });
     }).catch((e) => {
       res.status(401).send();
