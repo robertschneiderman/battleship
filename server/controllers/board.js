@@ -135,7 +135,7 @@ exports.attack = function(req, res, next) {
         game.winner = winner;
     }
 
-    user.games[0].boards[game.turn].markModified('grid');
+    user.games[user.games.length-1].boards[game.turn].markModified('grid');
     user.save(function(err) {
       if (err) { return next(err); }
     //   let grid = game.boards[1].grid;

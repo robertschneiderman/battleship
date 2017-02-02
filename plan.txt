@@ -56,6 +56,9 @@ click opponents board... (/post board)
 
 Styling
 • Boats
+• Messages
+• Sounds
+• Effects
 
 
 Bonus

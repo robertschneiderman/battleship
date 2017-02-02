@@ -19,6 +19,8 @@
 }
 
 .space {
+    border-left: 1px solid #dfdfe6;
+    border-bottom: 1px solid #dfdfe6;
     background-color: #eaeaef;
     cursor: pointer;
     height: 100%;
@@ -26,8 +28,19 @@
 }
 
 .row:nth-child(odd) > .space:nth-child(even), .row:nth-child(even) > .space:nth-child(odd) {
-    background-color: #d0d0e2;
+    /* background-color: #d0d0e2; */
 }
 
+.ship-img {
+    /* transform: rotate(90deg); */
+    /* left: 100%; */
+    /* transform-origin: 0% 0% 0; */
+    /* top: 50%; */
+    /* left: 0%; */
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+    width: 400%;
+}
 /*.space:nth-child(even) {
 }*/

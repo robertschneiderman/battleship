@@ -35,6 +35,7 @@ const userSchema = new Schema({
             coordinates: { type: Mixed, default: [] },
             hits: {type: Number, default: 0},
             name: String,
+            vertical: Boolean
           }
         ],
         grid: { type: Mixed, default: [] }

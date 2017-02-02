@@ -27,7 +27,7 @@ exports.new = function(req, res, next) {
     //   let grid = game.boards[1].grid;
     //   game.boards[1].grid.save(function(err) {
         // if (err) { return next(err); }
-      res.json({game});
+      res.json({user});
     //   });
     }).catch((e) => {
       res.status(401).send();

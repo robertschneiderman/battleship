@@ -24,7 +24,7 @@ exports.ships = [
         coordinates: [],
         vertical: false
     },{
-        name: 'Patrol ship', 
+        name: 'Patrol Boat', 
         capacity: 2,
         hits: 0,
         coordinates: [],
@@ -58,7 +58,7 @@ exports.shipsCopy = [
         coordinates: [],
         vertical: false
     },{
-        name: 'Patrol ship', 
+        name: 'Patrol Boat', 
         capacity: 2,
         hits: 0,
         coordinates: [],
@@ -123,7 +123,10 @@ exports.populateGrid = ships => {
         for (let i = 0; i < ship.coordinates.length; i++) {
             let coord = ship.coordinates[i];
             let space = grid[coord[0]][coord[1]];
+
             grid[coord[0]][coord[1]].ship = ship.name; 
+            grid[coord[0]][coord[1]].idx = (i+1); 
+            grid[coord[0]][coord[1]].vertical = ship.vertical;
         }
     });
     return grid;

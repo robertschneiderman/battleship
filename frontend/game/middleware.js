@@ -1,6 +1,7 @@
 import * as API from './api_util';
 import * as boardActions from '../board/actions';
 import * as gameActions from './actions';
+import * as userActions from '../user/actions';
 import {router, hashHistory} from 'react-router';
 
 const gamMiddleware = ({dispatch}) => next => action => {
@@ -19,7 +20,8 @@ const gamMiddleware = ({dispatch}) => next => action => {
     };
 
     const successNewGame = res => {
-        dispatch(gameActions.receiveGame(res.data.game));        
+        debugger;
+        dispatch(userActions.requestUser(localStorage.getItem('currentUser')));        
     };    
 
     switch (action.type) {

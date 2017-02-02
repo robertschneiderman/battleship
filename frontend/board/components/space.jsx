@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
 // import * as actions from '../actions';
 
+const lowerCase = (str) => {
+    let arr = str.split(" ");
+    arr = arr.map(word => word.slice(0, 1).toLowerCase() + word.slice(1));
+    return arr.join("_");
+};
+
 class Space extends Component {
     constructor(props) {
         super(props);
@@ -20,10 +26,32 @@ class Space extends Component {
         }
     }
 
+    getWidth(ship) {
+        if (ship === 'Aircraft Carrier') return '500%';
+        if (ship === 'Battleship') return '400%';
+        if (ship === 'Destroyer') return '300%';
+        if (ship === 'Submarine') return '300%';
+        if (ship === 'Patrol Boat') return '200%';
+    }
+
     revealUserSpace() {
         // debugger;
-        if (this.props.space.ship !== 'blank') {
-            return this.props.space.ship;
+        let { space } = this.props;
+        if (space.ship !== 'blank') {
+            let src = `./images/${lowerCase(space.ship)}.svg`;
+            let style = {};
+
+            if (this.props.y === 5 && this.props.x === 4) debugger;
+            if (space.vertical) {
+                style.transform = 'rotate(90deg)';
+                style.left = '100%';
+                style.transformOrigin = '0% 0% 0';
+            }
+            style.width = `${this.getWidth(space.ship)}`;
+
+            if (space.idx === 1) {
+                return <img className="ship-img" src={src} style={style} />;
+            }
         }
     }
 
