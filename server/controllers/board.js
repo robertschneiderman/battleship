@@ -130,7 +130,10 @@ exports.attack = function(req, res, next) {
     let status = isGameOver(board.ships);
     game.status = status;
 
-    if (status === 'over') winner = (game.turn === 0) ? 'Chuck Norris' : 'You';
+    if (status === 'over') {
+        winner = (game.turn === 0) ? 'Chuck Norris' : 'You';
+        game.winner = winner;
+    }
 
     user.games[0].boards[game.turn].markModified('grid');
     user.save(function(err) {
