@@ -78,7 +78,11 @@ const aiMove = (game, changedMode) => {
 };
 
 const isGameOver = ships => {
-
+    for (let i = 0; i < ships.length; i++) {
+        let ship = ships[i];
+        if (ship.hits !== ships.capacity) return false;
+    }
+    return true;
 };
     // let lastCoord = moves[moves.length-1];
     // let secondTolastCoord = moves[moves.length-2];

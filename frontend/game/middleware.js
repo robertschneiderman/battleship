@@ -11,6 +11,8 @@ const gamMiddleware = ({dispatch}) => next => action => {
         dispatch(boardActions.receiveBoard(res.data.board));
         dispatch(gameActions.receiveMessage(res.data.message));
 
+        dispatch(gameActions.receiveGameStatus(res.data.over));
+
         if (res.data.game.turn === 1) {
             dispatch(gameActions.getAiMove(res.data.game));
         }

@@ -116,6 +116,9 @@ const GameReducer = (state = defaultState, action) => {
         case 'RECEIVE_GAME':
             newState[action.payload._id] = action.payload;
             return newState;
+        case 'RECEIVE_GAME_STATUS':
+            newState[currentGame._id].state = 'over';        
+            return newState; 
         // case 'RECEIVE_GAME':
         //     return action.payload;
         case 'RECEIVE_TURN':

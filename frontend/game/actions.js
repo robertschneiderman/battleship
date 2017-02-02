@@ -26,6 +26,11 @@ export const receiveMessage = payload => ({
 });
 
 
+export const receiveGameStatus = payload => ({
+    type: 'RECEIVE_GAME_STATUS',
+    payload
+});
+
 export const getAiMove = payload => {
     return (dispatch) => {
         // axios.post()

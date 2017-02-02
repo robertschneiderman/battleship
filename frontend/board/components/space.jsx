@@ -11,7 +11,7 @@ class Space extends Component {
 
     handleClick() {
         debugger;
-        if (this.props.turn === 1) return;
+        if (this.props.turn === 1 || this.props.owner !== 'opponent') return;
         let {y, x, space} = this.props;
         if (!space.attacked) {
 
@@ -47,7 +47,7 @@ class Space extends Component {
         let style = this.renderStyle();
         return(
             <div className="space" style={style} onClick={this.handleClick.bind(this)}>
-                {(this.props.owner === 'user') ? this.revealUserSpace() : ''}
+                {(this.props.owner) ? this.revealUserSpace() : ''}
             </div>
         );
     }

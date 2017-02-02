@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Board from '../../board/components';
 import merge from 'lodash/merge';
 import * as actions from '../actions';
+import store from '../../store';
 
 const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -15,36 +16,20 @@ const getRandCoords = () => {
 class Game extends Component {
     constructor(props) {
         super(props);
-        this.formulateMove = this.formulateMove.bind(this);
     }
 
     componentDidMount() {
-        this.props.getAiMove();
-    }
-
-    formulateMove(board) {
-        // let { game } = this.props;
-        // let mode;
-        // // let mode = 'attackHorizontal';
-        // let moves = [[3, 4]];
-        // let move;
-        // if (mode !== 'random') {
-        //     let lastMove = moves[moves.length-1];
-        //     let nextSpace;
-        //     let previousSpace;
-        //     // let coordIdx = (mode === 'attackHorizontal') ? 1 : 0;
-        //     nextSpace = [3, lastMove[1] + 1];   
-        //     previousSpace = [3, lastMove[1] - 1];
-        //     move = (nextSpace.ship !== 'blank') ? nextSpace : (previousSpace.ship !== 'blank') ? previousSpace : getRandCoords();
-        // } else {
-        //     let randCoords = getRandCoords();
-        //     while (board[randCoords[0]][randCoords[1]].ship !== 'blank') {
-        //         randCoords = getRandCoords();    
-        //     }
-        //     move = randCoords;
-        // }
-
-        this.props.hitSpace();
+        const token = localStorage.getItem('token');
+        const currentUser = localStorage.getItem('currentUser');
+        if (token) {
+            store.dispatch({ type: 'AUTH_USER' });
+        }
+        if (currentUser) {
+            store.dispatch({ type: 'REQUEST_USER', payload: currentUser });
+        }        
+        if (this.props.game.turn === 1) {
+            this.props.getAiMove();
+        }
     }
 
     handleTemp() {
@@ -63,7 +48,10 @@ class Game extends Component {
                     <Board owner={'opponent'} {...this.props} board={boards[1]} />
                 </div>
             );
-        } else {
+        } else if (game.state === 'over') {
+            return <div className="game">GAME OVER</div>;
+        } 
+        else {
             return <div className="game"></div>;
         }
     }
@@ -92,9 +80,6 @@ const mapStateToProps = state => {
     } else {
         currentGame = {turn: 0};
     }
-
-            debugger;
-
 
     return {
         user,
