@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt-nodejs');
 const helpers = require('../board_helpers');
 const ships = helpers.ships;
 const shipsCopy = helpers.shipsCopy;
-const randomAssignment = helpers.randomAssignment;
 const populateGrid = helpers.populateGrid;
 
 function tokenForUser(user) {
@@ -34,9 +33,6 @@ exports.signup = function(req, res, next) {
     if (existingUser) {
       return res.status(422).send({ error: 'Email is in use'} );
     }
-
-    randomAssignment(ships);
-    randomAssignment(shipsCopy);
 
     let grid1 = populateGrid(ships);
     let grid2 = populateGrid(shipsCopy); 

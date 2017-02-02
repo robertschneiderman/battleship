@@ -44,7 +44,20 @@ click opponents board... (/post board)
     ai (user): {
         moves: [[coords], [coords]],
         mode: 'attackHorizontal',
-        
+
     }
 
 
+
+
+• No overlapping ships
+• multiple games and records
+
+
+Styling
+• Boats
+
+
+Bonus
+• Setup phase
+• AI

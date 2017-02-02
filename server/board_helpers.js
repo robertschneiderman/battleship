@@ -70,26 +70,6 @@ const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const findOrigin = ship => {
-    let limit = 9 - ship.capacity + 1;
-    let limitedDim = getRandomNumber(0, limit);
-    let regularDim = getRandomNumber(0, 9);
-    return (ship.vertical) ? [limitedDim, regularDim] : [regularDim, limitedDim];
-};
-
-exports.randomAssignment = ships => {
-    ships.forEach(ship => {
-        ship.vertical = !!getRandomNumber(0, 1);
-        let origin = findOrigin(ship);
-        let dimIdx = (ship.vertical) ? 0 : 1;
-        for (let i = 0; i < ship.capacity; i++) {
-            let newOrigin = [origin[0], origin[1]];
-            newOrigin[dimIdx] += i;
-            ship.coordinates.push(newOrigin);
-        }
-    });
-};
-
 const createBlankGrid = () => {
     let grid = [];
     for (let i = 1; i <= 10; i++) {
@@ -102,12 +82,49 @@ const createBlankGrid = () => {
     return grid;
 };
 
+const findOrigin = ship => {
+    let limit = 9 - ship.capacity + 1;
+    let limitedDim = getRandomNumber(0, limit);
+    let regularDim = getRandomNumber(0, 9);
+    ship.vertical = !!getRandomNumber(0, 1);
+    return (ship.vertical) ? [limitedDim, regularDim] : [regularDim, limitedDim];
+};
+
+const getCoordinates = ship => {
+    // ships.forEach(ship => {
+        // ship.coordinates = [];
+        let coordinates = [];
+        let origin = findOrigin(ship);
+        let dimIdx = ship.vertical ? 0 : 1;
+        for (let i = 0; i < ship.capacity; i++) {
+            let newOrigin = [origin[0], origin[1]];
+            newOrigin[dimIdx] += i;
+            coordinates.push(newOrigin);
+        }
+        return coordinates;
+    // });
+};
+
 exports.populateGrid = ships => {
     let grid = createBlankGrid();
     ships.forEach(ship => {
-        ship.coordinates.forEach(coord => {
-            grid[coord[0]][coord[1]].ship = ship.name;
+        ship.coordinates = getCoordinates(ship);
+        let noOverlap = ship.coordinates.every((el) => {
+            return grid[el[0]][el[1]].ship === 'blank';
         });
+        while(!noOverlap) {
+
+            ship.coordinates = getCoordinates(ship);
+            noOverlap = ship.coordinates.every((el) => {
+                return grid[el[0]][el[1]].ship === 'blank';
+            });
+        }
+
+        for (let i = 0; i < ship.coordinates.length; i++) {
+            let coord = ship.coordinates[i];
+            let space = grid[coord[0]][coord[1]];
+            grid[coord[0]][coord[1]].ship = ship.name; 
+        }
     });
     return grid;
 };
