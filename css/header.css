@@ -1,4 +1,4 @@
-.navbar {background-color: #bfe3e6;display: flex;justify-content: space-between;padding: 1rem;}
+.navbar {/* background-color: #bfe3e6; */display: flex;justify-content: space-between;padding: 1rem 0;max-width: 1300px;margin: 0 auto;}
 
 .navbar-logo {
 

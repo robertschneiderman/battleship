@@ -50,12 +50,14 @@ class Game extends Component {
 
     render() {
         let {game, turn, boards, hitSpace, message, status} = this.props;
+        debugger;
         if (boards.length !== 0) {
+            debugger;
+            let style = turn === 0 ? {left: '0px', animation: 'fadeUpOut2 1s linear .3s normal forwards'} : {right: '0px', animation: 'fadeUpOut 1s linear .3s normal forwards'};
             return(
                 <div className="game">
                     {this.renderModal()}
-                    <p className="message">{message}</p>
-                    <button style={{position: 'absolute', top: '10px', width: '50px'}} onClick={this.handleTemp.bind(this)}>reset turn</button>
+                    <p className="message" style={style}>{message}</p>
                     <Board owner={'user'} {...this.props} board={boards[0]} />
                     <Board owner={'opponent'} {...this.props} board={boards[1]} />
                 </div>

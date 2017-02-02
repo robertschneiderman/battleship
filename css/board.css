@@ -4,13 +4,15 @@
 
 .message {
     position: absolute;
-    left: 100px;
-    width: 50px;
+    right: 0px;
+    /* width: 50px; */
+    transform: translate3d(0, -30%, 0);
     top: 10px;
-    font-size: 2rem;    
+    font-size: 3rem;
+    x: 2rem;
 }
 
-.board {width: 40rem;height: 40rem;background-color: #eaeaef;}
+.board {width: 38rem;height: 38rem;background-color: #eaeaef;}
 
 .row {
     display: flex;
@@ -42,5 +44,31 @@
     pointer-events: none;
     width: 400%;
 }
-/*.space:nth-child(even) {
-}*/
+
+.fadeUpOut {
+    animation: fadeOut .1s ease-out 0s normal forwards;
+}
+
+@keyframes fadeUpOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, -70%, 0);
+    }
+}
+
+.fadeUpOut2 {
+    animation: fadeOut .1s ease-out 0s normal forwards;
+}
+
+@keyframes fadeUpOut2 {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, -70%, 0);
+    }
+}

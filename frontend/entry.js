@@ -18,6 +18,12 @@ import store from './store';
 
 window.store = store;
 
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch({ type: AUTH_USER });
+}
+
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>
