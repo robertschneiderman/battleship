@@ -10,6 +10,9 @@ const gamMiddleware = ({dispatch}) => next => action => {
         dispatch(boardActions.receiveBoard(res.data.board));
         dispatch(gameActions.receiveGameStatus(res.data.status));
         dispatch(gameActions.receiveMessage(res.data.message));
+        if (res.data.winner) {
+            dispatch(gameActions.receiveWinner(res.data.winner));
+        }
 
 
         if (res.data.game.turn === 1 && res.data.status === 'playing') {

@@ -98,8 +98,7 @@ exports.attack = function(req, res, next) {
       return Promise.reject();
     }
     let game = user.games[user.games.length-1];
-    let move;
-    let boardIdx;
+    let move, winner, boardIdx;
 
     if (!Array.isArray(req.body)) {
         boardIdx = 0;
@@ -129,8 +128,9 @@ exports.attack = function(req, res, next) {
     });
 
     let status = isGameOver(board.ships);
-
     game.status = status;
+
+    if (status === 'over') winner = (game.turn === 0) ? 'Chuck Norris' : 'You';
 
     user.games[0].boards[game.turn].markModified('grid');
     user.save(function(err) {
@@ -138,7 +138,7 @@ exports.attack = function(req, res, next) {
     //   let grid = game.boards[1].grid;
     //   game.boards[1].grid.save(function(err) {
         // if (err) { return next(err); }
-      res.json({board, game, message, status});
+      res.json({board, game, message, status, winner});
     //   });
     }).catch((e) => {
       res.status(401).send();

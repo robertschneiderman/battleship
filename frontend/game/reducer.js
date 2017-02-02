@@ -118,7 +118,10 @@ const GameReducer = (state = defaultState, action) => {
             return newState;
         case 'RECEIVE_GAME_STATUS':
             newState[currentGame._id].status = action.payload;        
-            return newState; 
+            return newState;
+        case 'RECEIVE_WINNER':
+            newState[currentGame._id].winner = action.payload;        
+            return newState;            
         // case 'RECEIVE_GAME':
         //     return action.payload;
         case 'RECEIVE_TURN':

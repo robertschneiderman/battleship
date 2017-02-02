@@ -25,6 +25,11 @@ export const receiveMessage = payload => ({
     payload
 });
 
+export const receiveWinner = payload => ({
+    type: 'RECEIVE_WINNER',
+    payload
+});
+
 
 export const receiveGameStatus = payload => ({
     type: 'RECEIVE_GAME_STATUS',

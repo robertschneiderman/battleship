@@ -11,7 +11,7 @@ class GameModal extends Component {
     render() {
         return(
             <Modal className="game-modal" isOpen={true}>
-                <h1 className="game-modal-title">It's Over!!!!!</h1>
+                <h1 className="game-modal-title">{this.props.winner} Won!!!!!</h1>
                 <button className="game-modal-btn">Play Again!</button>
             </Modal>
         );

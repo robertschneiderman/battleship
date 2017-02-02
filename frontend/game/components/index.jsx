@@ -40,9 +40,10 @@ class Game extends Component {
     }
 
     renderModal() {
-        if (this.props.status === 'over') {
+        let { status, winner } = this.props;
+        if (status === 'over') {
             return (
-                <GameModal className="game-modal" />
+                <GameModal winner={winner} className="game-modal" />
             );
         }
     }
@@ -97,6 +98,7 @@ const mapStateToProps = state => {
         turn: currentGame.turn, 
         message: currentGame.message, 
         status: currentGame.status, 
+        winner: currentGame.winner, 
         boards: boards,
         ships: ship
     };
