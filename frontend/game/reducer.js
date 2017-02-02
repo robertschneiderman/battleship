@@ -92,8 +92,16 @@ import {router, hashHistory} from 'react-router';
 
 let defaultState = {};
 
+const objToArr = obj => {
+    let arr = [];
+    for (let key in obj) arr.push(obj[key]);
+    return arr;
+};
+
 const GameReducer = (state = defaultState, action) => {
     let newState = merge({}, state);
+    let games = objToArr(newState);
+    let currentGame = games[games.length-1];
     switch (action.type) {
         case 'GET_GAME_DATA':
             return newState;
@@ -104,9 +112,19 @@ const GameReducer = (state = defaultState, action) => {
             return newState;
         case 'RECEIVE_GAMES':
             return action.payload;
-        case 'RECEIVE_AI':
 
+        case 'RECEIVE_GAME':
+            newState[action.payload._id] = action.payload;
+            return newState;
+        // case 'RECEIVE_GAME':
+        //     return action.payload;
         case 'RECEIVE_TURN':
+            newState[currentGame._id].turn = action.payload;
+            return newState; 
+        case 'RECEIVE_MESSAGE':
+            newState[currentGame._id].message = action.payload;
+            return newState;                                   
+        case 'RECEIVE_AI':
         
         case 'SWITCH_TURN':
             // newState.game.turn = (newState.game.turn + 1) % 2;

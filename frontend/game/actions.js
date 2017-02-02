@@ -10,11 +10,29 @@ export const receiveGames = payload => ({
     payload
 });
 
-export const aiMove = payload => {
+export const receiveGame = payload => ({
+    type: 'RECEIVE_GAME',
+    payload
+});
+
+export const receiveTurn = payload => ({
+    type: 'RECEIVE_TURN',
+    payload
+});
+
+export const receiveMessage = payload => ({
+    type: 'RECEIVE_MESSAGE',
+    payload
+});
+
+
+export const getAiMove = payload => {
     return (dispatch) => {
         // axios.post()
-        dispatch({type: 'AI_MOVE', payload});
-        dispatch({type: 'COMPUTER_MODE', payload});
+        setTimeout(() => {
+        // Yay! Can invoke sync or async actions with `dispatch`
+            dispatch({type: 'HIT_SPACE', payload});
+        }, 2000);        
     };
 };
 

@@ -23,6 +23,10 @@ const userSchema = new Schema({
     start: {type: Boolean, default: true},
     turn: {type: Number, default: 0},
     winner: {type: String, default: null},
+    ai: {
+      moves: { type: Mixed, default: [] },
+      mode: String
+    },
     boards: [
       {
         ships: [

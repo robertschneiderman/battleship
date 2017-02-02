@@ -112,4 +112,8 @@ exports.populateGrid = ships => {
     return grid;
 };
 
+exports.getRandCoords = () => {
+    return [getRandomNumber(0, 9), getRandomNumber(0, 9)];
+};
+
 // debugger;

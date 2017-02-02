@@ -10,8 +10,8 @@ const boardReducer = (state = defaultState, action) => {
         case 'RECEIVE_BOARDS':
             return action.payload;
         case 'RECEIVE_BOARD':
-        debugger;
-            newState[action.payload.id] = action.payload;
+        // debugger;
+            newState[action.payload._id] = action.payload;
             return newState;            
         default:
             return state;
