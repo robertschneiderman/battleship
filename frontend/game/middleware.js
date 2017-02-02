@@ -6,14 +6,13 @@ import {router, hashHistory} from 'react-router';
 const gamMiddleware = ({dispatch}) => next => action => {
 
     const successHit = res => {
-        debugger;
         dispatch(gameActions.receiveTurn(res.data.game.turn));
         dispatch(boardActions.receiveBoard(res.data.board));
+        dispatch(gameActions.receiveGameStatus(res.data.over));
         dispatch(gameActions.receiveMessage(res.data.message));
 
-        dispatch(gameActions.receiveGameStatus(res.data.over));
 
-        if (res.data.game.turn === 1) {
+        if (res.data.game.turn === 1 && res.data.over === 'playing') {
             dispatch(gameActions.getAiMove(res.data.game));
         }
     };

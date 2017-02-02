@@ -20,7 +20,7 @@ const userSchema = new Schema({
   name: String,
   password: String,
   games: [{
-    start: {type: Boolean, default: true},
+    status: {type: String, default: 'playing'},
     turn: {type: Number, default: 0},
     winner: {type: String, default: null},
     ai: {

@@ -37,7 +37,11 @@ class Game extends Component {
     }
 
     render() {
-        let {game, turn, boards, hitSpace, message} = this.props;
+        let {game, turn, boards, hitSpace, message, status} = this.props;
+        debugger;
+        if (status === 'over') {
+            return <div className="game">GAME OVER</div>;
+        }         
         if (boards.length !== 0) {
             return(
                 <div className="game">
@@ -48,8 +52,6 @@ class Game extends Component {
                     <Board owner={'opponent'} {...this.props} board={boards[1]} />
                 </div>
             );
-        } else if (game.state === 'over') {
-            return <div className="game">GAME OVER</div>;
         } 
         else {
             return <div className="game"></div>;
@@ -86,6 +88,7 @@ const mapStateToProps = state => {
         game: games,
         turn: currentGame.turn, 
         message: currentGame.message, 
+        status: currentGame.status, 
         boards: boards,
         ships: ship
     };
