@@ -13,20 +13,22 @@ const gamMiddleware = ({dispatch}) => next => action => {
         if (res.data.winner) {
             dispatch(gameActions.receiveWinner(res.data.winner));
         }
-
-
         if (res.data.game.turn === 1 && res.data.status === 'playing') {
             dispatch(gameActions.getAiMove(res.data.game));
         }
     };
 
+    const successNewGame = res => {
+        dispatch(gameActions.receiveGame(res.data.game));        
+    };    
+
     switch (action.type) {
         case 'HIT_SPACE':
             API.attackBoard(action.payload, successHit);
             return next(action);
-        case 'AI_MOVE':
-            // newState.game.turn = (newState.game.turn + 1) % 2;
-            return newState;            
+        case 'NEW_GAME':
+            API.newGame(successNewGame);
+            return next(action);
         default:
             return next(action);
     }

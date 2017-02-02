@@ -1,6 +1,7 @@
 const Authentication = require('./controllers/authentication');
 const User = require('./controllers/user');
 const Board = require('./controllers/board');
+const Game = require('./controllers/games');
 
 const passportService = require('./services/passport');
 const passport = require('passport');
@@ -18,6 +19,8 @@ module.exports = function(app) {
     app.post('/signin', Authentication.signin);
 
     app.get('/users/:id', User.find);    
+
+    app.post('/games', Game.new);
 
     app.patch('/boards', Board.attack);
     

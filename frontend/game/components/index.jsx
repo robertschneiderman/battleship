@@ -43,7 +43,7 @@ class Game extends Component {
         let { status, winner } = this.props;
         if (status === 'over') {
             return (
-                <GameModal winner={winner} className="game-modal" />
+                <GameModal {...this.props} className="game-modal" />
             );
         }
     }
@@ -87,10 +87,10 @@ const mapStateToProps = state => {
 
     if (games.length > 0) {
         currentGame = games[games.length-1];
+        boards = currentGame.boards.map(boardId => board[boardId]);
     } else {
         currentGame = {turn: 0};
     }
-
 
     return {
         user,
@@ -110,7 +110,8 @@ const mapDispatchToProps = dispatch => ({
     switchTurn: (payload) => dispatch(actions.switchTurn(payload)),
     aiMove: (payload) => dispatch(actions.aiMove(payload)),
     receiveTurn: (payload) => dispatch(actions.receiveTurn(payload)),
-    getAiMove: () => dispatch(actions.getAiMove())
+    getAiMove: () => dispatch(actions.getAiMove()),
+    newGame: () => dispatch(actions.newGame())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

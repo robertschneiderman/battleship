@@ -16,3 +16,8 @@ export const attackBoard = (data, success) => {
     console.log(error);
   });
 };
+
+export const newGame = (success) => {
+  axios.post(`${ROOT_URL}/games`)
+  .then(success);
+};

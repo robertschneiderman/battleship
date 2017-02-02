@@ -105,19 +105,19 @@ const getCoordinates = ship => {
     // });
 };
 
+const getCoordinatesAndCheckOverlap = (grid, ship) => {
+    ship.coordinates = getCoordinates(ship);
+    return ship.coordinates.every((el) => {
+        return grid[el[0]][el[1]].ship === 'blank';
+    });
+};
+
 exports.populateGrid = ships => {
     let grid = createBlankGrid();
     ships.forEach(ship => {
-        ship.coordinates = getCoordinates(ship);
-        let noOverlap = ship.coordinates.every((el) => {
-            return grid[el[0]][el[1]].ship === 'blank';
-        });
+        let noOverlap = getCoordinatesAndCheckOverlap(grid, ship);
         while(!noOverlap) {
-
-            ship.coordinates = getCoordinates(ship);
-            noOverlap = ship.coordinates.every((el) => {
-                return grid[el[0]][el[1]].ship === 'blank';
-            });
+            noOverlap = getCoordinatesAndCheckOverlap(grid, ship);
         }
 
         for (let i = 0; i < ship.coordinates.length; i++) {
