@@ -7,7 +7,6 @@ import {
 } from './types';
 
 const ROOT_URL = 'https://battlehip-with-chuck-norris.herokuapp.com';
-// const ROOT_URL = 'https://trackyy.herokuapp.com';
 
 export function signinUser({ email, name, password }) {
   return function(dispatch) {
