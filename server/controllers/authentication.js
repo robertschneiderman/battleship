@@ -15,7 +15,7 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
-  res.send({ token: tokenForUser(req.user), user: {id: req.user.id, email: req.user.email} });
+  res.send({ token: tokenForUser(req.body), user: {id: req.body.id, email: req.body.email} });
 };
 
 exports.signup = function(req, res, next) {

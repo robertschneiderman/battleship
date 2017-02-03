@@ -20,7 +20,6 @@ const gamMiddleware = ({dispatch}) => next => action => {
     };
 
     const successNewGame = res => {
-        debugger;
         dispatch(userActions.requestUser(localStorage.getItem('currentUser')));        
     };    
 

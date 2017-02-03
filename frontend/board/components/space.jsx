@@ -13,6 +13,7 @@ class Space extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.revealUserSpace = this.revealUserSpace.bind(this);
         this.renderStyle = this.renderStyle.bind(this);
+        this.renderMarker = this.renderMarker.bind(this);
     }
 
     handleClick() {
@@ -60,7 +61,7 @@ class Space extends Component {
         // if (this.props.game.turn === 0) style = {};
         if (this.props.space.attacked) {
             if (this.props.space.ship === 'blank') {
-                return {backgroundColor: 'green'};
+                return {backgroundColor: '#41b5a5'};
             } else {
                 return {backgroundColor: 'red'};
             }
@@ -69,12 +70,19 @@ class Space extends Component {
         }
     }    
 
+    renderMarker() {
+        let style = this.renderStyle();        
+        return (
+            <div className="marker" style={style}></div>
+        );
+    }
+
     
     render() {
-        let style = this.renderStyle();
         return(
-            <div className="space" style={style} onClick={this.handleClick.bind(this)}>
+            <div className="space" onClick={this.handleClick.bind(this)}>
                 {(this.props.owner) ? this.revealUserSpace() : ''}
+                {this.props.space.attacked ? this.renderMarker() : ''}
             </div>
         );
     }
