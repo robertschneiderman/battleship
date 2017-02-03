@@ -46,7 +46,7 @@ export const getAiMove = payload => {
         setTimeout(() => {
         // Yay! Can invoke sync or async actions with `dispatch`
             dispatch({type: 'HIT_SPACE', payload});
-        }, 2000);        
+        }, 0);        
     };
 };
 

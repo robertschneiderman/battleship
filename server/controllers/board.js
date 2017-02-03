@@ -3,16 +3,26 @@ const helpers = require('../board_helpers');
 const getRandCoords = helpers.getRandCoords;
 
 
-const getUnattackedRandomMove = (game) => {
-    let randomCoords = getRandCoords();
-    let userBoard = game.boards[0];
+const stc = str => {
+    if (str === "") return [];
+    let arr = str.split(',');
+    arr = arr.map(el => parseInt(el));
 
-    let space = getSpace(userBoard.grid, randomCoords);
-    while (space.attacked) {
-        randomCoords = getRandCoords();
-        space = getSpace(userBoard.grid, randomCoords);
+    let result = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (i % 2 !== 0) {
+            result.push([arr[i-1], arr[i]]);
+        }
     }
-    return randomCoords;
+    return result;
+};
+
+const cts = coords => {
+    let resultStr = '';
+    coords.slice(1).forEach(coord => {
+        resultStr += `,${coord[0]},${coord[1]}`;
+    });
+    return resultStr.slice(1);
 };
 
 const incrementCoord = (coord, vertical) => {
@@ -21,10 +31,6 @@ const incrementCoord = (coord, vertical) => {
 
 const decrementCoord = (coord, vertical) => {
     return (vertical) ? [coord[0]-1, coord[1]] : [coord[0], coord[1]-1];
-};
-
-const getSpace = (board, coord) => {
-    return board[coord[0]][coord[1]];
 };
 
 const getSpaces = (board, coords) => {
@@ -45,36 +51,182 @@ const getJumpMove = (moves, vertical) => {
     }
 };
 
-const aiMove = (game, changedMode) => {
-    let {mode, moves} = game.ai;
-    mode = changedMode ? changedMode : mode;
-    let board = game.boards[0];
-    moves = moves.reverse();
-    let spaces = getSpaces(board, moves);
-    let pivotSpace;
+const getUnattackedRandomMove = (grid) => {
+    let randomCoords = getRandCoords();
 
-    if (spaces[0].ship !== 'blank' && mode === 'random') mode = 'attackHo';
-    if (spaces[0].ship === 'blank' && spaces[1].ship === 'blank' && mode === 'attackHo') mode = 'attackVert';
-    if (spaces[0].ship === 'blank' && spaces[1].ship !== 'blank' && spaces[2].ship !== 'blank') pivotSpace = getJumpMove(moves, (mode === 'attackVert'));
+    let space = getSpace(grid, randomCoords);
+    while (space.attacked) {
+        randomCoords = getRandCoords();
+        space = getSpace(grid, randomCoords);
+    }
+    return randomCoords;
+};
+const isLastShipDestroyed = (board, lastSpace, ai) => {
+    if (lastSpace.ship !== 'blank') {
+        for (let i = 0; i < board.ships.length; i++) {
+            let ship = board.ships[i];
+            if (ship.name === lastSpace.ship && ship.hits === ship.capacity) {
+            // if (ship.name === lastSpace.ship && ai.hits === ship.capacity) {
+                return ship;
+            }
+        }
+    }
+    return false;
+};
+const getSpace = (grid, coord) => {
+    return grid[coord[0]][coord[1]];
+};
 
-    pivotSpace = pivotSpace ? pivotSpace : moves[0];
+const moveMissedOrAttacked = (grid, move) => {
+    let space = getSpace(grid, move);
+    return (space.attacked || space.ship === 'blank');
+};
 
-    let nextCoord = incrementCoord(pivotSpace, (mode === 'attackVert'));
-    let previousCoord = decrementCoord(pivotSpace, (mode === 'attackVert'));
+const attacked = (grid, move) => {
+    let space = getSpace(grid, move);
+    return (space.attacked);
+};
 
-    let nextSpace = getSpace(board, nextCoord);
-    let previousSpace = getSpace(board, previousCoord);
+const getMovesQueue = (pivot, vertical) => {
+    let idxToInc = vertical ? 0 : 1;
+    let forwards = ['base'];
+    let backwards = ['base'];
+    for (let i = 1; i <= 4; i++) {
+        let newPivot = pivot.slice(0);
+        newPivot[idxToInc] += i;
+        if (newPivot[idxToInc] > 9) break;
+        forwards.push(newPivot);
+    }
+    for (let j = 1; j <= 4; j++) {
+        let newPivot = pivot.slice(0);
+        newPivot[idxToInc] -= j;
+        if (newPivot[idxToInc] < 0) break;
+        backwards.push(newPivot);
+    }    
+    return {forwards, backwards};  
+};
 
-    
-    let move;
 
-    if (mode === 'random') return getRandCoords();
-    
-    if (mode === 'attackHo') {
-        move = !nextSpace.attacked ? nextCoord : !previousSpace.attacked ? previousCoord : aiMove(game, 'attackVert');
+const getMovesQueueIdx = ai => {
+    let add = (ai.attackDir === 'forwards') ? 0 : 1;
+    let base = (ai.attackDist - 1) * 2;
+    return base + add;
+};
+
+
+const assessMovesQueue = (grid, ai) => {
+    // adjust values
+    if (ai.attackDir === 'backwards' || (ai.abandonForwards && ai.attackDir === 'backwards') || ai.abandonBackwards) ai.attackDist += 1;
+
+    if (ai.attackDir === 'forwards' && !ai.abandonBackwards) {
+        ai.attackDir = 'backwards';
+    } else if (ai.attackDir === 'backwards' && !ai.abandonForwards) {
+        ai.attackDir = 'forwards';
+    } else if (!ai.attackDir) {
+        ai.attackDir = 'forwards';
     }
 
-    return move;
+    if (ai.abandonBackwards && ai.abandonForwards) {
+        ai.abandonHo = true;
+        ai.abandonBackwards = false;
+        ai.abandonForwards = false; 
+        ai.attackDir = 'forwards';
+        ai.attackDist = 1; 
+        ai.movesQueueEncoded = getMovesQueue(ai.pivots[0], true);               
+    }
+
+    // let curIdxOfMovesQueue = getMovesQueueIdx(ai);
+
+    // fist turn check for ho attacks
+    let currentMove = ai.movesQueueEncoded[ai.attackDir][ai.attackDist];
+
+    if (!currentMove) {
+        ai.attackDist += 1;
+        if (ai.attackDir === 'forwards') {
+            ai.attackDir = 'backwards';
+            ai.abandonForwards = true;
+        } else {
+            ai.attackDir = 'forwards';
+            ai.abandonBackwards = true;            
+        }
+        return;
+    }
+
+    if (ai.attackDir === 'forwards' && ai.attackDist === 1) {
+        if (attacked(grid, currentMove) && attacked(grid, ai.movesQueueEncoded['backwards'][1])) {
+            ai.abandonHo = true;
+        } else if (!moveMissedOrAttacked(grid, currentMove)) {
+            // first space empty
+            return; 
+        } else {
+            ai.abandonForwards = true;
+            return;
+        }
+    }
+    // check last move
+
+    if (moveMissedOrAttacked(grid, currentMove)) {        
+        if (ai.attackDir === 'forwards') {
+            ai.abandonForwards = true;
+        } else {
+            ai.abandonBackwards = true;
+        }
+    }
+
+};
+
+const aiMove = (board, ai) => {
+    let {moves} = ai;
+    let {grid} = board;
+    let lastShipDestroyed, lastMove, lastSpace;
+    ai.movesQueueEncoded = {};
+    ai.movesQueueEncoded['forwards'] = stc(ai.movesQueue['forwards']);
+    ai.movesQueueEncoded['backwards'] = stc(ai.movesQueue['backwards']);
+    
+    lastMove = ai.attackDir ? ai.movesQueue[ai.attackDir][ai.attackDist] : stc(ai.moves)[stc(ai.moves).length-1];
+    if (!lastMove) {
+        let move = getUnattackedRandomMove(grid);
+        if (!ai.moves) {
+            ai.moves += move;
+        } else {
+            ai.moves = ai.moves + ',' + move;
+        }
+        return move;        
+    } 
+    lastSpace = getSpace(grid, lastMove);
+    lastShipDestroyed = isLastShipDestroyed(board, lastSpace, ai);
+
+
+    if (ai.mode === 'random' && lastSpace.ship !== 'blank') {
+        ai.mode = 'ho';
+        ai.pivots.push(lastMove);
+        ai.movesQueueEncoded = getMovesQueue(lastMove);
+    }
+
+    if (lastShipDestroyed) ai.mode = 'random';
+
+    if (ai.mode === 'random') {
+        let move = getUnattackedRandomMove(grid);
+        if (!ai.moves) {
+            ai.moves += move;
+        } else {
+            ai.moves = ai.moves + ',' + move;
+        }
+        return move;
+    } else {
+        assessMovesQueue(grid, ai);
+        let move = ai.movesQueueEncoded[ai.attackDir][ai.attackDist];
+        move = move.slice(0); 
+        ai.movesQueue['forwards'] = cts(ai.movesQueueEncoded['forwards']);
+        ai.movesQueue['backwards'] = cts(ai.movesQueueEncoded['backwards']);
+
+        if (!ai.moves) {
+            ai.moves += move;
+        } else {
+            ai.moves = ai.moves + ',' + move;
+        }       
+        return move;
+    }
 };
 
 const isGameOver = ships => {
@@ -98,16 +250,17 @@ exports.attack = function(req, res, next) {
       return Promise.reject();
     }
     let game = user.games[user.games.length-1];
-    let move, winner, boardIdx;
+    let move, winner, boardIdx, board;
 
     if (!Array.isArray(req.body)) {
         boardIdx = 0;
-        move = getUnattackedRandomMove(game);
+        board = game.boards[boardIdx];        
+        move = getUnattackedRandomMove(board.grid);
     } else {
         boardIdx = 1;
         move = req.body;        
     }
-    let board = game.boards[boardIdx];
+    board = game.boards[boardIdx];
 
     if (game.start) game.start = false;
     game.turn = (game.turn + 1) % 2;
@@ -136,6 +289,8 @@ exports.attack = function(req, res, next) {
     }
 
     user.games[user.games.length-1].boards[game.turn].markModified('grid');
+    // user.games[user.games.length-1].ai.markModified('forwards');
+    // user.games[user.games.length-1].ai.movesQueue.markModified('backwards');
     user.save(function(err) {
       if (err) { return next(err); }
     //   let grid = game.boards[1].grid;

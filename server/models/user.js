@@ -24,8 +24,17 @@ const userSchema = new Schema({
     turn: {type: Number, default: 0},
     winner: {type: String, default: null},
     ai: {
-      moves: { type: Mixed, default: [] },
-      mode: String
+      moves: { type: String, default: '' },
+      movesQueue: { 
+        forwards: { type: String, default: '' },
+        backwards: { type: String, default: '' }
+      },
+      mode: {type: String, default: 'random'},
+      pivots: { type: Mixed, default: [] },
+      attackDir: {type: String, default: undefined},
+      attackDist: {type: Number, default: 1},    
+      abandonBackwards: {type: Boolean, defualt: false},
+      abandonForwards: {type: Boolean, defualt: false},      
     },
     boards: [
       {
