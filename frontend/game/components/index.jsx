@@ -50,9 +50,7 @@ class Game extends Component {
 
     render() {
         let {game, turn, boards, hitSpace, message, status} = this.props;
-        debugger;
         if (boards.length !== 0) {
-            debugger;
             let style = turn === 0 ? {left: '0px', animation: 'fadeUpOut2 1s linear .3s normal forwards'} : {right: '0px', animation: 'fadeUpOut 1s linear .3s normal forwards'};
             return(
                 <div className="game">

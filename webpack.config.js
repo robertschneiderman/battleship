@@ -7,7 +7,8 @@ module.exports = {
       historyApiFallback: true
   },  
   output: {
-    path: './',
+    path: path.join(__dirname, 'static'),
+    publicPath: "static",    
     filename: "./bundle.js",
     devtoolModuleFilenameTemplate: '../[resource-path]'    
   },

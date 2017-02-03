@@ -15,7 +15,7 @@ app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json({type: '*/*'}));
 
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../static')));
 
 const indexPath = path.join(__dirname, '/../index.html');
 
