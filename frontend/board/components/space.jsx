@@ -81,7 +81,7 @@ class Space extends Component {
     render() {
         return(
             <div className="space" onClick={this.handleClick.bind(this)}>
-                {(this.props.owner) ? this.revealUserSpace() : ''}
+                {(this.props.owner === 'user') ? this.revealUserSpace() : ''}
                 {this.props.space.attacked ? this.renderMarker() : ''}
             </div>
         );
